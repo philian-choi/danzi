@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import '../providers/visit_notes_provider.dart';
+import '../providers/storage_provider.dart';
 import '../utils/constants.dart';
+import '../utils/error_handler.dart';
 import '../widgets/toast_message.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -72,12 +74,10 @@ class _SettingsScreenBodyState extends ConsumerState<SettingsScreenBody> {
       );
       
       if (mounted) {
-        ToastMessage.show(context, '백업 데이터가 공유되었습니다');
+        ToastMessage.show(context, AppStrings.backupShared);
       }
     } catch (e) {
-      if (mounted) {
-        ToastMessage.show(context, '백업에 실패했습니다');
-      }
+      ErrorHandler.handleError(context, e, userMessage: AppStrings.backupFailed);
     }
   }
 
@@ -105,17 +105,15 @@ class _SettingsScreenBodyState extends ConsumerState<SettingsScreenBody> {
       if (success) {
         await ref.read(visitNotesProvider.notifier).loadVisitNotes();
         if (mounted) {
-          ToastMessage.show(context, '데이터가 복원되었습니다');
+          ToastMessage.show(context, AppStrings.restoreSuccess);
         }
       } else {
         if (mounted) {
-          ToastMessage.show(context, '복원에 실패했습니다. JSON 형식을 확인해주세요');
+          ToastMessage.show(context, AppStrings.restoreFailed);
         }
       }
     } catch (e) {
-      if (mounted) {
-        ToastMessage.show(context, '파일을 읽는 중 오류가 발생했습니다: ${e.toString()}');
-      }
+      ErrorHandler.handleFileError(context, e, fileName: '백업 파일');
     }
   }
 

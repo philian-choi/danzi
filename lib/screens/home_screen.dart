@@ -214,14 +214,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               const SizedBox(height: 24),
               Text(
-                '임장 기록이 없습니다',
+                AppStrings.noVisitRecords,
                 style: AppTextStyles.title3.copyWith(
                   color: AppColors.text,
                 ),
               ),
               const SizedBox(height: 8),
               Text(
-                '첫 임장 기록을 작성해보세요',
+                AppStrings.createFirstVisit,
                 style: AppTextStyles.body.copyWith(
                   color: AppColors.tertiaryText,
                 ),
@@ -238,7 +238,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   );
                 },
                 icon: const Icon(Icons.add_circle_outline),
-                label: const Text('첫 임장 작성하기'),
+                label: Text(AppStrings.createFirstVisitButton),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,
@@ -400,14 +400,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final result = await showDialog<SortOption>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('정렬 옵션'),
+        title: Text(AppStrings.sortOption),
         content: StatefulBuilder(
           builder: (context, setDialogState) {
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 RadioListTile<SortOption>(
-                  title: const Text('날짜 (최신순)'),
+                  title: Text(AppStrings.dateNewest),
                   value: SortOption.dateNewest,
                   groupValue: _sortOption,
                   secondary: _sortOption == SortOption.dateNewest
@@ -423,7 +423,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   },
                 ),
                 RadioListTile<SortOption>(
-                  title: const Text('날짜 (오래된순)'),
+                  title: Text(AppStrings.dateOldest),
                   value: SortOption.dateOldest,
                   groupValue: _sortOption,
                   secondary: _sortOption == SortOption.dateOldest
@@ -455,7 +455,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   },
                 ),
                 RadioListTile<SortOption>(
-                  title: const Text('시세 (높은순)'),
+                  title: Text(AppStrings.priceHigh),
                   value: SortOption.priceHigh,
                   groupValue: _sortOption,
                   secondary: _sortOption == SortOption.priceHigh
@@ -471,7 +471,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   },
                 ),
                 RadioListTile<SortOption>(
-                  title: const Text('시세 (낮은순)'),
+                  title: Text(AppStrings.priceLow),
                   value: SortOption.priceLow,
                   groupValue: _sortOption,
                   secondary: _sortOption == SortOption.priceLow

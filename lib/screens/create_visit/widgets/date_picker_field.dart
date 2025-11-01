@@ -18,7 +18,7 @@ class DatePickerField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '날짜',
+          AppStrings.date,
           style: AppTextStyles.bodySmall.copyWith(
             fontWeight: FontWeight.w600,
           ),

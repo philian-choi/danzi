@@ -39,7 +39,7 @@ class PriceInfoSection extends StatelessWidget {
           ),
           const SizedBox(height: AppDimensions.itemSpacing),
           CustomTextField(
-            label: '온라인 시세 (원)',
+            label: AppStrings.onlinePrice,
             hint: '예: 500,000,000',
             controller: onlinePriceController,
             keyboardType: TextInputType.number,
@@ -47,7 +47,7 @@ class PriceInfoSection extends StatelessWidget {
           ),
           const SizedBox(height: AppDimensions.itemSpacing),
           CustomTextField(
-            label: '현장 시세 (원)',
+            label: AppStrings.fieldPrice,
             hint: '예: 520,000,000',
             controller: fieldPriceController,
             keyboardType: TextInputType.number,
@@ -55,7 +55,7 @@ class PriceInfoSection extends StatelessWidget {
           ),
           const SizedBox(height: AppDimensions.itemSpacing),
           CustomTextField(
-            label: '매매가 (원)',
+            label: AppStrings.salePrice,
             hint: '예: 510,000,000',
             controller: salePriceController,
             keyboardType: TextInputType.number,
@@ -63,7 +63,7 @@ class PriceInfoSection extends StatelessWidget {
           ),
           const SizedBox(height: AppDimensions.itemSpacing),
           CustomTextField(
-            label: '전월세가 (원)',
+            label: AppStrings.rentPrice,
             hint: '예: 20,000,000',
             controller: rentPriceController,
             keyboardType: TextInputType.number,
@@ -71,7 +71,7 @@ class PriceInfoSection extends StatelessWidget {
           ),
           const SizedBox(height: AppDimensions.itemSpacing),
           CustomTextField(
-            label: '실거래가 (원)',
+            label: AppStrings.actualPrice,
             hint: '예: 505,000,000',
             controller: actualPriceController,
             keyboardType: TextInputType.number,

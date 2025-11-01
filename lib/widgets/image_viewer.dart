@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'dart:io';
+import '../utils/constants.dart';
 
 class ImageViewer extends StatelessWidget {
   final List<String> imagePaths;
@@ -26,10 +27,8 @@ class ImageViewer extends StatelessWidget {
         ),
         title: Text(
           '${initialIndex + 1} / ${imagePaths.length}',
-          style: const TextStyle(
+          style: AppTextStyles.headline.copyWith(
             color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
           ),
         ),
         centerTitle: true,
@@ -49,21 +48,20 @@ class ImageViewer extends StatelessWidget {
             errorBuilder: (context, error, stackTrace) {
               return Container(
                 color: Colors.black,
-                child: const Center(
+                child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.broken_image,
                         size: 64,
                         color: Colors.white54,
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Text(
                         '이미지를 불러올 수 없습니다',
-                        style: TextStyle(
+                        style: AppTextStyles.body.copyWith(
                           color: Colors.white54,
-                          fontSize: 16,
                         ),
                       ),
                     ],

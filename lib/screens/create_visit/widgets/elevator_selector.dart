@@ -33,7 +33,7 @@ class ElevatorSelector extends StatelessWidget {
             children: [
               Expanded(
                 child: _ElevatorOption(
-                  label: '미선택',
+                  label: AppStrings.elevatorNone,
                   isSelected: selectedValue == null,
                   onTap: () => onChanged(null),
                 ),
@@ -45,7 +45,7 @@ class ElevatorSelector extends StatelessWidget {
               ),
               Expanded(
                 child: _ElevatorOption(
-                  label: '있음',
+                  label: AppStrings.elevatorYes,
                   isSelected: selectedValue == true,
                   onTap: () => onChanged(true),
                 ),
@@ -57,7 +57,7 @@ class ElevatorSelector extends StatelessWidget {
               ),
               Expanded(
                 child: _ElevatorOption(
-                  label: '없음',
+                  label: AppStrings.elevatorNo,
                   isSelected: selectedValue == false,
                   onTap: () => onChanged(false),
                 ),

@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 class ToastMessage {
   static void show(BuildContext context, String message) {
+    if (!context.mounted) return;
+    
     final overlay = Overlay.of(context);
     final overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -31,8 +34,10 @@ class ToastMessage {
 
     overlay.insert(overlayEntry);
 
-    Future.delayed(const Duration(seconds: 2), () {
-      overlayEntry.remove();
+    Timer(const Duration(seconds: 2), () {
+      if (overlayEntry.mounted) {
+        overlayEntry.remove();
+      }
     });
   }
 }

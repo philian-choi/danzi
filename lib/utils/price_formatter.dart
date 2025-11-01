@@ -66,5 +66,16 @@ class PriceInputFormatter extends TextInputFormatter {
       TextEditingValue(text: number.toString()),
     ).text;
   }
+
+  /// 가격을 화면 표시용 포맷으로 변환 (억, 만 단위)
+  /// 예: 100000000 -> "1.0억", 50000 -> "5만", 5000 -> "5000"
+  static String formatPriceDisplay(int price) {
+    if (price >= 100000000) {
+      return '${(price / 100000000).toStringAsFixed(1)}억';
+    } else if (price >= 10000) {
+      return '${(price / 10000).toStringAsFixed(0)}만';
+    }
+    return price.toString();
+  }
 }
 

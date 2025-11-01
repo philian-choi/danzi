@@ -137,7 +137,7 @@ class AppStrings {
   static const String confirm = '확인';
   static const String saved = '저장되었습니다';
   static const String deleted = '삭제되었습니다';
-  static const String deleteConfirm = '이 임장 기록을 삭제하시겠습니까?';
+  static const String deleteConfirmMessage = '이 임장 기록을 삭제하시겠습니까?';
   static const String addPhoto = '사진 추가';
   static const String camera = '카메라';
   static const String gallery = '갤러리';
@@ -161,6 +161,7 @@ class AppStrings {
   static const String parking = '주차장';
   static const String householdCount = '세대수';
   static const String area = '해당평형 (㎡)';
+  static const String areaLabel = '해당평형';
   static const String schoolInfo = '학교정보';
   
   // 가격 필드
@@ -169,11 +170,17 @@ class AppStrings {
   static const String salePrice = '매매가 (원)';
   static const String rentPrice = '전월세가 (원)';
   static const String actualPrice = '실거래가 (원)';
+  // 가격 필드 (표시용, 단위 제외)
+  static const String onlinePriceLabel = '온라인 시세';
+  static const String fieldPriceLabel = '현장 시세';
+  static const String salePriceLabel = '매매가';
+  static const String rentPriceLabel = '전월세가';
+  static const String actualPriceLabel = '실거래가';
   
   // 기타
   static const String editVisit = '임장 수정';
   static const String savedStatus = '저장됨';
-  static const String deleteConfirm = '삭제 확인';
+  static const String deleteConfirmTitle = '삭제 확인';
   static const String priceInfoSection = '시세정보';
   static const String elevatorNone = '미선택';
   static const String elevatorYes = '있음';

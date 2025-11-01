@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/visit_note.dart';
+import '../utils/error_handler.dart';
 
 class StorageService {
   static const String _visitNotesKey = 'visit_notes';
@@ -54,7 +54,7 @@ class StorageService {
         try {
           notes.add(VisitNote.fromJson(item as Map<String, dynamic>));
         } catch (e) {
-          debugPrint('Error parsing visit note: $e');
+          ErrorHandler.handleError(null, e, logError: true, userMessage: null);
           // 개별 노트 파싱 실패 시 건너뛰기
         }
       }
@@ -62,7 +62,7 @@ class StorageService {
       _cachedNotes = notes;
       return notes;
     } catch (e) {
-      debugPrint('Error loading visit notes: $e');
+      ErrorHandler.handleParseError(null, e, dataType: '임장 기록');
       _cachedNotes = [];
       return [];
     }
@@ -94,6 +94,7 @@ class StorageService {
       final json = jsonDecode(jsonString) as Map<String, dynamic>;
       return VisitNote.fromJson(json);
     } catch (e) {
+      ErrorHandler.handleParseError(null, e, dataType: '드래프트');
       return null;
     }
   }
@@ -126,6 +127,7 @@ class StorageService {
       await prefs.setString(_visitNotesKey, jsonEncode(notes.map((n) => n.toJson()).toList()));
       return true;
     } catch (e) {
+      ErrorHandler.handleParseError(null, e, dataType: '임포트 데이터');
       return false;
     }
   }

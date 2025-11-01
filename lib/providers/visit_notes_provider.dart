@@ -1,10 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/visit_note.dart';
 import '../services/storage_service.dart';
-
-final storageServiceProvider = Provider<StorageService>((ref) {
-  return StorageService();
-});
+import 'storage_provider.dart';
 
 final visitNotesProvider = StateNotifierProvider<VisitNotesNotifier, VisitNotesState>((ref) {
   final storageService = ref.watch(storageServiceProvider);
@@ -59,13 +56,18 @@ class VisitNotesNotifier extends StateNotifier<VisitNotesState> {
   }
 
   Future<void> deleteVisitNote(String id) async {
-    final note = state.notes.firstWhere((n) => n.id == id);
-    // 파일 삭제는 백그라운드에서 처리
-    Future.microtask(() async {
-      for (final photoPath in note.photoPaths) {
-        await _storageService.deletePhotoFile(photoPath);
-      }
-    });
+    // 노트를 안전하게 찾기
+    final note = state.notes.where((n) => n.id == id).firstOrNull;
+    
+    if (note != null) {
+      // 파일 삭제는 백그라운드에서 처리
+      Future.microtask(() async {
+        for (final photoPath in note.photoPaths) {
+          await _storageService.deletePhotoFile(photoPath);
+        }
+      });
+    }
+    
     _storageService.clearCache();
     await _storageService.deleteVisitNote(id);
     await loadVisitNotes();

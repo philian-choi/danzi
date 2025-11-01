@@ -68,8 +68,8 @@ class _VisitCardState extends State<VisitCard>
         final confirmed = await showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('삭제 확인'),
-            content: const Text(AppStrings.deleteConfirm),
+            title: Text(AppStrings.deleteConfirmTitle),
+            content: const Text(AppStrings.deleteConfirmMessage),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),

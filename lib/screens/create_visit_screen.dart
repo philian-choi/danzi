@@ -6,8 +6,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import '../models/visit_note.dart';
 import '../providers/visit_notes_provider.dart';
+import '../providers/storage_provider.dart';
 import '../utils/constants.dart';
 import '../utils/debouncer.dart';
+import '../utils/error_handler.dart';
 import '../widgets/toast_message.dart';
 import '../utils/price_formatter.dart';
 import 'create_visit/widgets/basic_info_section.dart';
@@ -288,15 +290,13 @@ class _CreateVisitScreenState extends ConsumerState<CreateVisitScreen> {
         _onFieldChanged();
         
         if (mounted && savedPaths.length < files.length) {
-          ToastMessage.show(context, '일부 사진 저장에 실패했습니다');
+          ToastMessage.show(context, AppStrings.somePhotoSaveFailed);
         }
       } else if (mounted) {
-        ToastMessage.show(context, '사진 저장에 실패했습니다');
+        ToastMessage.show(context, AppStrings.photoSaveFailed);
       }
     } catch (e) {
-      if (mounted) {
-        ToastMessage.show(context, '사진 저장에 실패했습니다: ${e.toString()}');
-      }
+      ErrorHandler.handleFileError(context, e, fileName: '사진');
     }
   }
 
@@ -349,7 +349,7 @@ class _CreateVisitScreenState extends ConsumerState<CreateVisitScreen> {
     });
 
     if (apartmentNameEmpty) {
-      ToastMessage.show(context, '단지명은 필수 항목입니다');
+      ToastMessage.show(context, AppStrings.apartmentNameRequired);
       return;
     }
 
@@ -410,7 +410,7 @@ class _CreateVisitScreenState extends ConsumerState<CreateVisitScreen> {
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text(
-          widget.editNote != null ? '임장 수정' : AppStrings.newVisit,
+          widget.editNote != null ? AppStrings.editVisit : AppStrings.newVisit,
           style: AppTextStyles.title3,
         ),
         backgroundColor: AppColors.groupedBackground,
@@ -440,7 +440,7 @@ class _CreateVisitScreenState extends ConsumerState<CreateVisitScreen> {
                           ),
                           const SizedBox(width: 4),
                           Text(
-                            '저장됨',
+                            AppStrings.savedStatus,
                             style: AppTextStyles.caption.copyWith(
                               color: AppColors.primary,
                             ),
@@ -543,8 +543,8 @@ class _CreateVisitScreenState extends ConsumerState<CreateVisitScreen> {
                                   final confirmed = await showDialog<bool>(
                                     context: context,
                                     builder: (deleteContext) => AlertDialog(
-                                      title: const Text('사진 삭제'),
-                                      content: const Text('정말 이 사진을 삭제하시겠습니까?'),
+                                      title: const Text(AppStrings.photoDelete),
+                                      content: const Text(AppStrings.photoDeleteConfirm),
                                       actions: [
                                         TextButton(
                                           onPressed: () => Navigator.pop(deleteContext, false),

@@ -5,6 +5,7 @@ import '../models/visit_note.dart';
 import '../providers/visit_notes_provider.dart';
 import '../utils/constants.dart';
 import '../utils/date_formatter.dart';
+import '../utils/price_display_formatter.dart';
 import '../widgets/toast_message.dart';
 import '../widgets/image_viewer.dart';
 import 'create_visit_screen.dart';
@@ -19,31 +20,28 @@ class DetailVisitScreen extends ConsumerWidget {
     final visitNotesState = ref.watch(visitNotesProvider);
     final visitNotes = visitNotesState.notes;
     
-    try {
-      final visitNote = visitNotes.firstWhere(
-        (note) => note.id == visitNoteId,
-      );
+    // 노트를 안전하게 찾기
+    final visitNote = visitNotes.where((note) => note.id == visitNoteId).firstOrNull;
 
-      return _buildDetailContent(context, ref, visitNote);
-    } catch (e) {
-      // 노트를 찾지 못한 경우
+    if (visitNote == null) {
+      // 노트를 찾지 못한 경우 (삭제되었거나 존재하지 않는 경우)
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (context.mounted) {
+          Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('임장 기록을 찾을 수 없습니다'),
-              duration: Duration(seconds: 2),
+            SnackBar(
+              content: Text(AppStrings.visitNotFound),
+              duration: const Duration(seconds: 2),
             ),
           );
-          Navigator.pop(context);
         }
       });
 
       return Scaffold(
         backgroundColor: AppColors.groupedBackground,
         appBar: AppBar(
-          title: const Text(
-            '임장 상세',
+          title: Text(
+            AppStrings.visitDetail,
             style: AppTextStyles.title3,
           ),
           backgroundColor: AppColors.groupedBackground,
@@ -55,6 +53,8 @@ class DetailVisitScreen extends ConsumerWidget {
         ),
       );
     }
+
+    return _buildDetailContent(context, ref, visitNote);
   }
 
   Widget _buildDetailContent(BuildContext context, WidgetRef ref, VisitNote visitNote) {
@@ -107,7 +107,7 @@ class DetailVisitScreen extends ConsumerWidget {
                   ],
                   if (visitNote.direction != null) ...[
                     const SizedBox(height: 12),
-                    _buildDetailRow('향', visitNote.direction!),
+                    _buildDetailRow(AppStrings.direction, visitNote.direction!),
                   ],
                   if (visitNote.structure != null) ...[
                     const SizedBox(height: 12),
@@ -115,23 +115,23 @@ class DetailVisitScreen extends ConsumerWidget {
                   ],
                   if (visitNote.hasElevator != null) ...[
                     const SizedBox(height: 12),
-                    _buildDetailRow('엘리베이터', visitNote.hasElevator! ? '있음' : '없음'),
+                    _buildDetailRow(AppStrings.elevator, visitNote.hasElevator! ? AppStrings.elevatorYes : AppStrings.elevatorNo),
                   ],
                   if (visitNote.parkingType != null) ...[
                     const SizedBox(height: 12),
-                    _buildDetailRow('주차장', visitNote.parkingType!),
+                    _buildDetailRow(AppStrings.parking, visitNote.parkingType!),
                   ],
                   if (visitNote.householdCount != null) ...[
                     const SizedBox(height: 12),
-                    _buildDetailRow('세대수', '${visitNote.householdCount}세대'),
+                    _buildDetailRow(AppStrings.householdCount, '${visitNote.householdCount}세대'),
                   ],
                   if (visitNote.area != null) ...[
                     const SizedBox(height: 12),
-                    _buildDetailRow('해당평형', '${visitNote.area}㎡'),
+                    _buildDetailRow(AppStrings.areaLabel, '${visitNote.area}㎡'),
                   ],
                   if (visitNote.schoolInfo != null && visitNote.schoolInfo!.isNotEmpty) ...[
                     const SizedBox(height: 12),
-                    _buildDetailRow('학교정보', visitNote.schoolInfo!),
+                    _buildDetailRow(AppStrings.schoolInfo, visitNote.schoolInfo!),
                   ],
                   if (visitNote.onlinePrice != null ||
                       visitNote.fieldPrice != null ||
@@ -142,30 +142,30 @@ class DetailVisitScreen extends ConsumerWidget {
                     const Divider(),
                     const SizedBox(height: 16),
                     Text(
-                      '시세정보',
+                      AppStrings.priceInfoSection,
                       style: AppTextStyles.bodySmall.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     if (visitNote.onlinePrice != null) ...[
                       const SizedBox(height: 8),
-                      _buildDetailRow('온라인 시세', '${_formatPrice(visitNote.onlinePrice!)}원'),
+                      _buildDetailRow(AppStrings.onlinePriceLabel, '${PriceDisplayFormatter.formatPrice(visitNote.onlinePrice)}원'),
                     ],
                     if (visitNote.fieldPrice != null) ...[
                       const SizedBox(height: 8),
-                      _buildDetailRow('현장 시세', '${_formatPrice(visitNote.fieldPrice!)}원'),
+                      _buildDetailRow(AppStrings.fieldPriceLabel, '${PriceDisplayFormatter.formatPrice(visitNote.fieldPrice)}원'),
                     ],
                     if (visitNote.salePrice != null) ...[
                       const SizedBox(height: 8),
-                      _buildDetailRow('매매가', '${_formatPrice(visitNote.salePrice!)}원'),
+                      _buildDetailRow(AppStrings.salePriceLabel, '${PriceDisplayFormatter.formatPrice(visitNote.salePrice)}원'),
                     ],
                     if (visitNote.rentPrice != null) ...[
                       const SizedBox(height: 8),
-                      _buildDetailRow('전월세가', '${_formatPrice(visitNote.rentPrice!)}원'),
+                      _buildDetailRow(AppStrings.rentPriceLabel, '${PriceDisplayFormatter.formatPrice(visitNote.rentPrice)}원'),
                     ],
                     if (visitNote.actualPrice != null) ...[
                       const SizedBox(height: 8),
-                      _buildDetailRow('실거래가', '${_formatPrice(visitNote.actualPrice!)}원'),
+                      _buildDetailRow(AppStrings.actualPriceLabel, '${PriceDisplayFormatter.formatPrice(visitNote.actualPrice)}원'),
                     ],
                   ],
                   if (visitNote.memo.isNotEmpty) ...[
@@ -296,8 +296,8 @@ class DetailVisitScreen extends ConsumerWidget {
                   final confirmed = await showDialog<bool>(
                     context: context,
                     builder: (context) => AlertDialog(
-                      title: const Text('삭제 확인'),
-                      content: const Text(AppStrings.deleteConfirm),
+                      title: Text(AppStrings.deleteConfirmTitle),
+                      content: Text(AppStrings.deleteConfirmMessage),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(context, false),
@@ -361,13 +361,5 @@ class DetailVisitScreen extends ConsumerWidget {
     );
   }
 
-  String _formatPrice(int price) {
-    if (price >= 100000000) {
-      return '${(price / 100000000).toStringAsFixed(1)}억';
-    } else if (price >= 10000) {
-      return '${(price / 10000).toStringAsFixed(0)}만';
-    }
-    return price.toString();
-  }
 }
 
