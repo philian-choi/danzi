@@ -32,7 +32,7 @@ class PriceInfoSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '시세 정보',
+            AppStrings.priceInfo,
             style: AppTextStyles.headline.copyWith(
               fontWeight: FontWeight.w600,
             ),

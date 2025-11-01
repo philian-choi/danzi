@@ -17,7 +17,7 @@ class ElevatorSelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '엘리베이터',
+          AppStrings.elevator,
           style: AppTextStyles.bodySmall.copyWith(
             fontWeight: FontWeight.w600,
           ),

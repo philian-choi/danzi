@@ -49,7 +49,7 @@ class DetailInfoSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '상세 정보',
+            AppStrings.detailInfo,
             style: AppTextStyles.headline.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -74,7 +74,7 @@ class DetailInfoSection extends StatelessWidget {
           ),
           const SizedBox(height: AppDimensions.itemSpacing),
           CustomDropdown<String>(
-            label: '향',
+            label: AppStrings.direction,
             value: selectedDirection,
             items: DirectionOptions.options,
             itemLabel: (item) => item,
@@ -93,7 +93,7 @@ class DetailInfoSection extends StatelessWidget {
           ),
           const SizedBox(height: AppDimensions.itemSpacing),
           CustomDropdown<String>(
-            label: '주차장',
+            label: AppStrings.parking,
             value: selectedParkingType,
             items: ParkingOptions.options,
             itemLabel: (item) => item,
@@ -104,21 +104,21 @@ class DetailInfoSection extends StatelessWidget {
           ),
           const SizedBox(height: AppDimensions.itemSpacing),
           CustomTextField(
-            label: '세대수',
+            label: AppStrings.householdCount,
             hint: '예: 150',
             controller: householdCountController,
             keyboardType: TextInputType.number,
           ),
           const SizedBox(height: AppDimensions.itemSpacing),
           CustomTextField(
-            label: '해당평형 (㎡)',
+            label: AppStrings.area,
             hint: '예: 84',
             controller: areaController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
           ),
           const SizedBox(height: AppDimensions.itemSpacing),
           CustomTextField(
-            label: '학교정보',
+            label: AppStrings.schoolInfo,
             hint: '초/중 학군, 학업성취도 입력',
             controller: schoolInfoController,
             maxLines: 3,

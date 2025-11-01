@@ -32,7 +32,7 @@ class BasicInfoSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '기본 정보',
+            AppStrings.basicInfo,
             style: AppTextStyles.headline.copyWith(
               fontWeight: FontWeight.w600,
             ),

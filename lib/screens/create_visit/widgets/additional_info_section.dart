@@ -30,7 +30,7 @@ class AdditionalInfoSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '추가 정보',
+            AppStrings.additionalInfo,
             style: AppTextStyles.headline.copyWith(
               fontWeight: FontWeight.w600,
             ),
